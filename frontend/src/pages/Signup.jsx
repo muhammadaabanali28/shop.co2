@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import "./css/Login.css";
 
 function Signup({ onChangePage }) {
-  const { login } = useAuth();
+  const { user } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +13,12 @@ function Signup({ onChangePage }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  if (user) {
+    onChangePage("home");
+    return null;
+  }
+
+  const handleSignup = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -28,25 +35,29 @@ function Signup({ onChangePage }) {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Registration failed");
-        return;
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      if (name) {
+        await updateProfile(result.user, { displayName: name });
       }
-
-      login(data, data.token);
       onChangePage("home");
     } catch (err) {
-      setError("Server not available. Please try again later.");
+      if (err.code === "auth/email-already-in-use") {
+        setError("Email already in use");
+      } else {
+        setError(err.message);
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSignup = async () => {
+    setError("");
+    try {
+      await signInWithPopup(auth, googleProvider);
+      onChangePage("home");
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -58,7 +69,7 @@ function Signup({ onChangePage }) {
 
         {error && <div className="auth-error">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSignup}>
           <div className="form-group">
             <label>Name</label>
             <input
@@ -107,6 +118,13 @@ function Signup({ onChangePage }) {
             {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
+
+        <div className="auth-divider">OR</div>
+
+        <button className="auth-google-btn" onClick={handleGoogleSignup}>
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20" />
+          Continue with Google
+        </button>
 
         <p className="auth-switch">
           Already have an account?{" "}

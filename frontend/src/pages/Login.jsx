@@ -1,39 +1,43 @@
 import { useState } from "react";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import "./css/Login.css";
 
 function Login({ onChangePage }) {
-  const { login } = useAuth();
+  const { user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  if (user) {
+    onChangePage("home");
+    return null;
+  }
+
+  const handleEmailLogin = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Login failed");
-        return;
-      }
-
-      login(data, data.token);
+      await signInWithEmailAndPassword(auth, email, password);
       onChangePage("home");
     } catch (err) {
-      setError("Server not available. Please try again later.");
+      setError(err.code === "auth/invalid-credential" ? "Invalid email or password" : err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError("");
+    try {
+      await signInWithPopup(auth, googleProvider);
+      onChangePage("home");
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -45,7 +49,7 @@ function Login({ onChangePage }) {
 
         {error && <div className="auth-error">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleEmailLogin}>
           <div className="form-group">
             <label>Email</label>
             <input
@@ -72,6 +76,13 @@ function Login({ onChangePage }) {
             {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
+
+        <div className="auth-divider">OR</div>
+
+        <button className="auth-google-btn" onClick={handleGoogleLogin}>
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20" />
+          Continue with Google
+        </button>
 
         <p className="auth-switch">
           Don't have an account?{" "}
