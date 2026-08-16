@@ -11,10 +11,10 @@ const styles = [
   { id: 4, label: "Gym",     img: gym    },
 ];
 
-function Browse({ onChangePage }) {
+function Browse({ onChangeSection }) {
   const handleClick = (label) => {
-    if (onChangePage) {
-      onChangePage('casual');
+    if (onChangeSection) {
+      onChangeSection('shop');
     }
   };
 

@@ -36,7 +36,7 @@ const fallbackTopSelling = [
 const API_BASE = "http://localhost:5000/api";
 const IMG_BASE = "http://localhost:5000";
 
-function Home({ onChangePage }) {
+function Home({ onChangePage, onChangeSection, onProductClick }) {
   const [newArrivals, setNewArrivals] = useState(fallbackNewArrivals);
   const [topSelling, setTopSelling] = useState(fallbackTopSelling);
   const [loading, setLoading] = useState(true);
@@ -99,7 +99,7 @@ function Home({ onChangePage }) {
             to bring out your individuality.
           </p>
 
-          <button id="hebtn" onClick={() => onChangePage('casual')}>Shop Now</button>
+          <button id="hebtn" onClick={() => onChangeSection('shop')}>Shop Now</button>
 
           <div className="stats">
             <div>
@@ -132,11 +132,11 @@ function Home({ onChangePage }) {
         <span className="brand-name brand-ck">Calvin Klein</span>
       </div>
 
-      <NewArrivals products={newArrivals} />
-      <TopSelling products={topSelling} />
-      <Browse onChangePage={onChangePage} />
+      <NewArrivals products={newArrivals} onProductClick={onProductClick} />
+      <TopSelling products={topSelling} onProductClick={onProductClick} />
+      <Browse onChangeSection={onChangeSection} />
       <Customers />
-      <Footer onChangePage={onChangePage} />
+      <Footer onChangePage={onChangePage} onChangeSection={onChangeSection} />
     </>
   );
 }

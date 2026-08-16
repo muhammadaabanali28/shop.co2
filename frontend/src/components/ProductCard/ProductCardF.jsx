@@ -30,9 +30,9 @@ function StarRating({ rating }) {
   return <div className="stars">{stars}</div>;
 }
 
-function ProductCard({ image, title, price, originalPrice, discount, rating }) {
+function ProductCard({ image, title, price, originalPrice, discount, rating, onClick }) {
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={onClick}>
       <img
         className="product-card-img"
         src={image}

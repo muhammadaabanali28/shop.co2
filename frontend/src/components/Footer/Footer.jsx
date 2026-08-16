@@ -7,7 +7,7 @@ const links = {
   RESOURCES: ["Free eBooks", "Development Tutorial", "How to - Blog", "Youtube Playlist"],
 };
 
-function Footer({ onChangePage }) {
+function Footer({ onChangePage, onChangeSection }) {
   const handleLogoClick = (e) => {
     e.preventDefault();
     if (onChangePage) {
@@ -17,8 +17,8 @@ function Footer({ onChangePage }) {
 
   const handleLinkClick = (e) => {
     e.preventDefault();
-    if (onChangePage) {
-      onChangePage('casual');
+    if (onChangeSection) {
+      onChangeSection('shop');
     }
   };
 

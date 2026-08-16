@@ -102,8 +102,18 @@ function StarRating({ rating }) {
   return <div className="stars">{stars}</div>;
 }
 
-function Category({ onChangePage }) {
+function Category({ section = "shop", onChangePage, onChangeSection, onProductClick }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Section config
+  const sectionConfig = {
+    shop: { title: "Shop", breadcrumb: "Shop" },
+    sale: { title: "On Sale", breadcrumb: "On Sale" },
+    arrivals: { title: "New Arrivals", breadcrumb: "New Arrivals" },
+    brands: { title: "Brands", breadcrumb: "Brands" },
+  };
+
+  const currentSection = sectionConfig[section] || sectionConfig.shop;
 
   // Filters State
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -127,6 +137,14 @@ function Category({ onChangePage }) {
   // Filtered and Sorted Products List
   const filteredProducts = useMemo(() => {
     let result = [...initialProducts];
+
+    // Section filter
+    if (section === "sale") {
+      result = result.filter(p => p.discount && p.discount > 0);
+    } else if (section === "arrivals") {
+      result = result.filter(p => p.isNew);
+    }
+    // "shop" and "brands" show all products
 
     if (selectedCategory) {
       result = result.filter(p => p.category === selectedCategory);
@@ -157,7 +175,7 @@ function Category({ onChangePage }) {
     }
 
     return result;
-  }, [selectedCategory, priceMax, selectedColor, selectedSize, selectedStyle, sortBy]);
+  }, [section, selectedCategory, priceMax, selectedColor, selectedSize, selectedStyle, sortBy]);
 
   // Pagination Logic
   const itemsPerPage = 9;
@@ -183,7 +201,7 @@ function Category({ onChangePage }) {
         <nav className="breadcrumbs" aria-label="Breadcrumb">
           <span className="crumb" onClick={() => onChangePage('home')}>Home</span>
           <FiChevronRight className="crumb-arrow" />
-          <span className="crumb active">Casual</span>
+          <span className="crumb active">{currentSection.breadcrumb}</span>
         </nav>
 
         {/* Outer Split Layout */}
@@ -298,7 +316,7 @@ function Category({ onChangePage }) {
             {/* Header section with category name and sorting controls */}
             <div className="results-header">
               <div className="title-area">
-                <h2>Casual</h2>
+                <h2>{currentSection.title}</h2>
                 <span className="results-count">
                   Showing {filteredProducts.length > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0}-
                   {Math.min(currentPage * itemsPerPage, filteredProducts.length)} of {filteredProducts.length} Products
@@ -330,7 +348,7 @@ function Category({ onChangePage }) {
             {currentProducts.length > 0 ? (
               <div className="category-products-grid">
                 {currentProducts.map((p) => (
-                  <div className="category-product-card" key={p.id}>
+                  <div className="category-product-card" key={p.id} onClick={() => onProductClick && onProductClick(p, currentProducts)}>
                     {/* Placeholder image representation with subtle CSS shapes */}
                     <div className="category-product-placeholder">
                       <GarmentIcon type={p.category} />
@@ -400,7 +418,7 @@ function Category({ onChangePage }) {
         </div>
       </main>
 
-      <Footer onChangePage={onChangePage} />
+      <Footer onChangePage={onChangePage} onChangeSection={onChangeSection} />
     </>
   );
 }

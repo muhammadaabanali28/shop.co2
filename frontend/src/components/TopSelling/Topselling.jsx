@@ -1,6 +1,6 @@
 import ProductCard from "../ProductCard/ProductCardF";
 
-function TopSelling({ products }) {
+function TopSelling({ products, onProductClick }) {
   return (
     <section className="new-arrivals-section">
       <h2>TOP SELLING</h2>
@@ -15,6 +15,7 @@ function TopSelling({ products }) {
             originalPrice={product.originalPrice}
             discount={product.discount}
             rating={product.rating || 4.5}
+            onClick={() => onProductClick && onProductClick(product, products)}
           />
         ))}
       </div>
