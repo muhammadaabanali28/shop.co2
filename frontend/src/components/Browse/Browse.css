@@ -1,0 +1,139 @@
+/* ===== Browse Section ===== */
+.browse-section {
+  padding: 60px 60px;
+  background: #fff;
+}
+
+.browse-inner {
+  background: #f2f0f1;
+  border-radius: 28px;
+  padding: 50px 48px;
+  text-align: center;
+}
+
+.browse-title {
+  font-size: 36px;
+  font-weight: 900;
+  color: #111;
+  margin-bottom: 36px;
+  letter-spacing: 1px;
+}
+
+.browse-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.browse-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+  height: 200px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.browse-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.browse-label {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+  z-index: 2;
+}
+
+.browse-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* ===== 992px Tablet ===== */
+@media (max-width: 992px) {
+  .browse-section {
+    padding: 40px 24px;
+  }
+  .browse-inner {
+    padding: 36px 24px;
+  }
+  .browse-title {
+    font-size: 28px;
+  }
+  .browse-card {
+    height: 180px;
+  }
+}
+
+/* ===== 768px Mobile ===== */
+@media (max-width: 768px) {
+  .browse-section {
+    padding: 32px 16px;
+  }
+  .browse-inner {
+    padding: 28px 16px;
+    border-radius: 20px;
+  }
+  .browse-title {
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+  .browse-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .browse-card {
+    height: 160px;
+  }
+  .browse-label {
+    font-size: 16px;
+    top: 14px;
+    left: 14px;
+  }
+}
+
+/* ===== 480px Small Mobile ===== */
+@media (max-width: 480px) {
+  .browse-section {
+    padding: 24px 12px;
+  }
+  .browse-inner {
+    padding: 22px 12px;
+  }
+  .browse-title {
+    font-size: 18px;
+    margin-bottom: 18px;
+  }
+  .browse-grid {
+    gap: 10px;
+  }
+  .browse-card {
+    height: 140px;
+    border-radius: 14px;
+  }
+  .browse-label {
+    font-size: 14px;
+    top: 10px;
+    left: 12px;
+  }
+}
+
+/* ===== 360px Ultra-small ===== */
+@media (max-width: 360px) {
+  .browse-card {
+    height: 120px;
+  }
+  .browse-label {
+    font-size: 13px;
+    top: 8px;
+    left: 10px;
+  }
+}
