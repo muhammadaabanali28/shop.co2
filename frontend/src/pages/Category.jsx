@@ -194,7 +194,7 @@ function Category({ section = "shop", onChangePage, onChangeSection, onProductCl
 
   return (
     <>
-      <Navbar onChangePage={onChangePage} />
+      <Navbar onChangePage={onChangePage} onChangeSection={onChangeSection} />
 
       <main className="category-container">
         {/* Breadcrumb */}

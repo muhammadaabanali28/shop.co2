@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import heroImg from "../assets/images/herosection.png";
 import NewArrivals from "../components/newArrivals/newArrivals";
@@ -80,7 +80,7 @@ function Home({ onChangePage, onChangeSection, onProductClick }) {
         </span>
       </div>
 
-      <Navbar onChangePage={onChangePage} />
+      <Navbar onChangePage={onChangePage} onChangeSection={onChangeSection} />
 
       <section id="hero">
         <div className="hero-content">

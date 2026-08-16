@@ -48,7 +48,7 @@ function ProductDetail({ product, onChangePage, onChangeSection, allProducts = [
 
   return (
     <>
-      <Navbar onChangePage={onChangePage} />
+      <Navbar onChangePage={onChangePage} onChangeSection={onChangeSection} />
 
       <div className="pd-container">
         <div className="pd-breadcrumb">
