@@ -5,26 +5,26 @@ import './css/category.css';
 import { FiSliders, FiChevronRight, FiCheck } from 'react-icons/fi';
 
 const initialProducts = [
-  { id: 1, name: "Gradient Graphic T-shirt", category: "T-shirts", price: 145, rating: 3.5, color: "white", size: "Large", style: "Casual", isNew: true, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=500" },
-  { id: 2, name: "Polo with Tipping Details", category: "T-shirts", price: 180, rating: 4.5, color: "red", size: "Medium", style: "Casual", image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&q=80&w=500" },
-  { id: 3, name: "Black Striped T-shirt", category: "T-shirts", price: 120, originalPrice: 150, discount: 20, rating: 5.0, color: "black", size: "Small", style: "Casual", image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&q=80&w=500" },
-  { id: 4, name: "Skinny Fit Jeans", category: "Jeans", price: 240, originalPrice: 260, discount: 20, rating: 3.5, color: "blue", size: "Large", style: "Casual", image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&q=80&w=500" },
-  { id: 5, name: "Checkered Shirt", category: "T-shirts", price: 180, rating: 4.5, color: "red", size: "X-Large", style: "Formal", image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&q=80&w=500" },
-  { id: 6, name: "Sleeve Striped T-shirt", category: "T-shirts", price: 130, originalPrice: 160, discount: 20, rating: 4.5, color: "orange", size: "XX-Large", style: "Casual", image: "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&q=80&w=500" },
-  { id: 7, name: "Vertical Striped Shirt", category: "T-shirts", price: 212, originalPrice: 232, discount: 20, rating: 5.0, color: "green", size: "Medium", style: "Casual", image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&q=80&w=500" },
-  { id: 8, name: "Courage Graphic T-shirt", category: "T-shirts", price: 145, rating: 4.0, color: "orange", size: "Large", style: "Casual", image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&q=80&w=500" },
-  { id: 9, name: "Loose Fit Bermuda Shorts", category: "Shorts", price: 80, rating: 3.0, color: "blue", size: "Medium", style: "Casual", image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&q=80&w=500" },
-  { id: 10, name: "Faded Skinny Jeans", category: "Jeans", price: 210, rating: 4.5, color: "blue", size: "Medium", style: "Casual", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&q=80&w=500" },
-  { id: 11, name: "Classic Summer Shorts", category: "Shorts", price: 95, rating: 4.0, color: "yellow", size: "Small", style: "Casual", image: "https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&q=80&w=500" },
-  { id: 12, name: "Gym Running Hoodie", category: "Hoodies", price: 175, rating: 4.8, color: "purple", size: "Medium", style: "Gym", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=500" },
-  { id: 13, name: "Denim Ripped Skirts", category: "Skirts", price: 130, rating: 4.2, color: "blue", size: "Small", style: "Party", image: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&q=80&w=500" },
-  { id: 14, name: "Party Velvet Skirt", category: "Skirts", price: 195, rating: 4.7, color: "pink", size: "Medium", style: "Party", image: "https://images.unsplash.com/photo-1577900232427-18219b9166a0?auto=format&fit=crop&q=80&w=500" },
-  { id: 15, name: "Warm Fleece Hoodie", category: "Hoodies", price: 160, rating: 4.5, color: "cyan", size: "Large", style: "Casual", image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=500" },
-  { id: 16, name: "Breathable Workout Tee", category: "T-shirts", price: 70, rating: 4.1, color: "green", size: "Medium", style: "Gym", image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&q=80&w=500" },
-  { id: 17, name: "Formal Executive Shirt", category: "T-shirts", price: 220, rating: 4.9, color: "white", size: "Large", style: "Formal", image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&q=80&w=500" },
-  { id: 18, name: "Urban Street Joggers", category: "Jeans", price: 110, rating: 3.9, color: "black", size: "Large", style: "Casual", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&q=80&w=500" },
-  { id: 19, name: "Nightlife Party Dress", category: "Skirts", price: 250, rating: 5.0, color: "black", size: "Small", style: "Party", image: "https://images.unsplash.com/photo-1577900232427-18219b9166a0?auto=format&fit=crop&q=80&w=500" },
-  { id: 20, name: "Activewear Training Hoodie", category: "Hoodies", price: 150, rating: 4.3, color: "black", size: "Large", style: "Gym", image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=500" }
+  { id: 1, name: "Gradient Graphic T-shirt", category: "T-shirts", price: 145, rating: 3.5, color: "white", size: "Large", style: "Casual", isNew: true },
+  { id: 2, name: "Polo with Tipping Details", category: "T-shirts", price: 180, rating: 4.5, color: "red", size: "Medium", style: "Casual" },
+  { id: 3, name: "Black Striped T-shirt", category: "T-shirts", price: 120, originalPrice: 150, discount: 20, rating: 5.0, color: "black", size: "Small", style: "Casual" },
+  { id: 4, name: "Skinny Fit Jeans", category: "Jeans", price: 240, originalPrice: 260, discount: 20, rating: 3.5, color: "blue", size: "Large", style: "Casual" },
+  { id: 5, name: "Checkered Shirt", category: "T-shirts", price: 180, rating: 4.5, color: "red", size: "X-Large", style: "Formal" },
+  { id: 6, name: "Sleeve Striped T-shirt", category: "T-shirts", price: 130, originalPrice: 160, discount: 20, rating: 4.5, color: "orange", size: "XX-Large", style: "Casual" },
+  { id: 7, name: "Vertical Striped Shirt", category: "T-shirts", price: 212, originalPrice: 232, discount: 20, rating: 5.0, color: "green", size: "Medium", style: "Casual" },
+  { id: 8, name: "Courage Graphic T-shirt", category: "T-shirts", price: 145, rating: 4.0, color: "orange", size: "Large", style: "Casual" },
+  { id: 9, name: "Loose Fit Bermuda Shorts", category: "Shorts", price: 80, rating: 3.0, color: "blue", size: "Medium", style: "Casual" },
+  { id: 10, name: "Faded Skinny Jeans", category: "Jeans", price: 210, rating: 4.5, color: "blue", size: "Medium", style: "Casual" },
+  { id: 11, name: "Classic Summer Shorts", category: "Shorts", price: 95, rating: 4.0, color: "yellow", size: "Small", style: "Casual" },
+  { id: 12, name: "Gym Running Hoodie", category: "Hoodies", price: 175, rating: 4.8, color: "purple", size: "Medium", style: "Gym" },
+  { id: 13, name: "Denim Ripped Skirts", category: "Skirts", price: 130, rating: 4.2, color: "blue", size: "Small", style: "Party" },
+  { id: 14, name: "Party Velvet Skirt", category: "Skirts", price: 195, rating: 4.7, color: "pink", size: "Medium", style: "Party" },
+  { id: 15, name: "Warm Fleece Hoodie", category: "Hoodies", price: 160, rating: 4.5, color: "cyan", size: "Large", style: "Casual" },
+  { id: 16, name: "Breathable Workout Tee", category: "T-shirts", price: 70, rating: 4.1, color: "green", size: "Medium", style: "Gym" },
+  { id: 17, name: "Formal Executive Shirt", category: "T-shirts", price: 220, rating: 4.9, color: "white", size: "Large", style: "Formal" },
+  { id: 18, name: "Urban Street Joggers", category: "Jeans", price: 110, rating: 3.9, color: "black", size: "Large", style: "Casual" },
+  { id: 19, name: "Nightlife Party Dress", category: "Skirts", price: 250, rating: 5.0, color: "black", size: "Small", style: "Party" },
+  { id: 20, name: "Activewear Training Hoodie", category: "Hoodies", price: 150, rating: 4.3, color: "black", size: "Large", style: "Gym" }
 ];
 
 const colorMap = {
