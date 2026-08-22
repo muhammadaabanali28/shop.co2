@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase";
+import { api } from "../services/api";
 
 const AuthContext = createContext(null);
 
@@ -9,29 +8,42 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        setUser({
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          name: firebaseUser.displayName || "",
-        });
-      } else {
-        setUser(null);
-      }
+    const token = localStorage.getItem("token");
+    if (token) {
+      api
+        .getMe()
+        .then((data) => setUser(data))
+        .catch(() => {
+          localStorage.removeItem("token");
+          setUser(null);
+        })
+        .finally(() => setLoading(false));
+    } else {
       setLoading(false);
-    });
-    return () => unsubscribe();
+    }
   }, []);
 
-  const logout = async () => {
-    const { signOut } = await import("firebase/auth");
-    await signOut(auth);
+  const login = async (email, password) => {
+    const data = await api.login(email, password);
+    localStorage.setItem("token", data.token);
+    setUser({ _id: data._id, name: data.name, email: data.email });
+    return data;
+  };
+
+  const register = async (name, email, password) => {
+    const data = await api.register(name, email, password);
+    localStorage.setItem("token", data.token);
+    setUser({ _id: data._id, name: data.name, email: data.email });
+    return data;
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

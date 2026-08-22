@@ -357,6 +357,18 @@
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+.category-product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  transition: transform 0.3s ease;
+}
+
+.category-product-card:hover .category-product-img {
+  transform: scale(1.05);
+}
+
 .category-product-card:hover .garment-svg {
   transform: scale(1.1);
   opacity: 0.6;

@@ -52,8 +52,8 @@ function Cart({ onChangePage, onChangeSection }) {
 
         <div className="cart-layout">
           <div className="cart-items">
-            {cartItems.map((item) => (
-              <div key={item.cartId} className="cart-item">
+            {cartItems.map((item, index) => (
+              <div key={index} className="cart-item">
                 <div className="cart-item-image">
                   <img src={item.image} alt={item.title} />
                 </div>
@@ -68,16 +68,16 @@ function Cart({ onChangePage, onChangeSection }) {
                   <div className="cart-item-price">${item.price}</div>
                   <div className="cart-item-actions">
                     <div className="cart-quantity">
-                      <button onClick={() => updateQuantity(item.cartId, item.quantity - 1)} disabled={item.quantity <= 1}>
+                      <button onClick={() => updateQuantity(index, item.quantity - 1)} disabled={item.quantity <= 1}>
                         <FiMinus />
                       </button>
                       <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.cartId, item.quantity + 1)}>
+                      <button onClick={() => updateQuantity(index, item.quantity + 1)}>
                         <FiPlus />
                       </button>
                     </div>
                     <span className="cart-item-subtotal">${item.price * item.quantity}</span>
-                    <button className="cart-remove-btn" onClick={() => removeFromCart(item.cartId)}>
+                    <button className="cart-remove-btn" onClick={() => removeFromCart(index)}>
                       <FiTrash2 />
                     </button>
                   </div>
@@ -101,7 +101,7 @@ function Cart({ onChangePage, onChangeSection }) {
               <span>Total</span>
               <span>${cartTotal}</span>
             </div>
-            <button className="cart-checkout-btn">Proceed to Checkout</button>
+            <button className="cart-checkout-btn" onClick={() => onChangePage("checkout")}>Proceed to Checkout</button>
             <button className="cart-continue-btn" onClick={() => onChangePage("home")}>← Continue Shopping</button>
           </div>
         </div>

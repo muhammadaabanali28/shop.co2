@@ -1,17 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Home from './pages/home';
 import Category from './pages/Category';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import AddProduct from './pages/AddProduct';
+import { api, IMG_BASE } from './services/api';
 import './App.css';
 
 function App() {
   const [page, setPage] = useState('home');
   const [section, setSection] = useState('shop');
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [allProducts, setAllProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await api.getProducts();
+        const withUrls = data.map((p) => ({
+          ...p,
+          image: p.image && !p.image.startsWith("http") ? IMG_BASE + p.image : p.image,
+        }));
+        setProducts(withUrls);
+      } catch (err) {
+        console.log("Products fetch error:", err.message);
+      }
+    };
+
+    loadProducts();
+  }, []);
 
   const navigateTo = (newPage) => {
     setPage(newPage);
@@ -24,9 +44,8 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const openProduct = (product, products) => {
+  const openProduct = (product) => {
     setSelectedProduct(product);
-    if (products) setAllProducts(products);
     setPage('product');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -43,13 +62,22 @@ function App() {
     return <Cart onChangePage={navigateTo} onChangeSection={navigateSection} />;
   }
 
+  if (page === 'checkout') {
+    return <Checkout onChangePage={navigateTo} onChangeSection={navigateSection} />;
+  }
+
+  if (page === 'add-product') {
+    return <AddProduct onChangePage={navigateTo} onChangeSection={navigateSection} />;
+  }
+
   if (page === 'product' && selectedProduct) {
     return (
       <ProductDetail
         product={selectedProduct}
         onChangePage={navigateTo}
         onChangeSection={navigateSection}
-        allProducts={allProducts}
+        allProducts={products}
+        onProductClick={openProduct}
       />
     );
   }
@@ -61,12 +89,18 @@ function App() {
         onChangePage={navigateTo}
         onChangeSection={navigateSection}
         onProductClick={openProduct}
+        products={products}
       />
     );
   }
 
   return (
-    <Home onChangePage={navigateTo} onChangeSection={navigateSection} onProductClick={openProduct} />
+    <Home
+      onChangePage={navigateTo}
+      onChangeSection={navigateSection}
+      onProductClick={openProduct}
+      products={products}
+    />
   );
 }
 

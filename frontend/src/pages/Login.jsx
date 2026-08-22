@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { FiMail, FiLock, FiArrowRight } from "react-icons/fi";
 import "./css/Login.css";
 
 function Login({ onChangePage }) {
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -23,22 +21,12 @@ function Login({ onChangePage }) {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await login(email, password);
       onChangePage("home");
     } catch (err) {
-      setError(err.code === "auth/invalid-credential" ? "Invalid email or password" : err.message);
+      setError(err.message || "Invalid email or password");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    setError("");
-    try {
-      await signInWithPopup(auth, googleProvider);
-      onChangePage("home");
-    } catch (err) {
-      setError(err.message);
     }
   };
 
@@ -93,15 +81,6 @@ function Login({ onChangePage }) {
                 )}
               </button>
             </form>
-
-            <div className="auth-divider">
-              <span>or continue with</span>
-            </div>
-
-            <button className="auth-google-btn" onClick={handleGoogleLogin}>
-              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20" />
-              Google
-            </button>
 
             <p className="auth-switch">
               Don't have an account?{" "}

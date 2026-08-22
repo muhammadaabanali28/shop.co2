@@ -4,7 +4,7 @@ import Footer from '../components/Footer/Footer';
 import './css/category.css';
 import { FiSliders, FiChevronRight, FiCheck } from 'react-icons/fi';
 
-const initialProducts = [
+const fallbackProducts = [
   { id: 1, name: "Gradient Graphic T-shirt", category: "T-shirts", price: 145, rating: 3.5, color: "white", size: "Large", style: "Casual", isNew: true },
   { id: 2, name: "Polo with Tipping Details", category: "T-shirts", price: 180, rating: 4.5, color: "red", size: "Medium", style: "Casual" },
   { id: 3, name: "Black Striped T-shirt", category: "T-shirts", price: 120, originalPrice: 150, discount: 20, rating: 5.0, color: "black", size: "Small", style: "Casual" },
@@ -102,7 +102,8 @@ function StarRating({ rating }) {
   return <div className="stars">{stars}</div>;
 }
 
-function Category({ section = "shop", onChangePage, onChangeSection, onProductClick }) {
+function Category({ section = "shop", onChangePage, onChangeSection, onProductClick, products = [] }) {
+  const serverProducts = products.length > 0 ? products : fallbackProducts;
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Section config
@@ -136,7 +137,7 @@ function Category({ section = "shop", onChangePage, onChangeSection, onProductCl
 
   // Filtered and Sorted Products List
   const filteredProducts = useMemo(() => {
-    let result = [...initialProducts];
+    let result = [...serverProducts];
 
     // Section filter
     if (section === "sale") {
@@ -175,7 +176,7 @@ function Category({ section = "shop", onChangePage, onChangeSection, onProductCl
     }
 
     return result;
-  }, [section, selectedCategory, priceMax, selectedColor, selectedSize, selectedStyle, sortBy]);
+  }, [serverProducts, section, selectedCategory, priceMax, selectedColor, selectedSize, selectedStyle, sortBy]);
 
   // Pagination Logic
   const itemsPerPage = 9;
@@ -348,14 +349,17 @@ function Category({ section = "shop", onChangePage, onChangeSection, onProductCl
             {currentProducts.length > 0 ? (
               <div className="category-products-grid">
                 {currentProducts.map((p) => (
-                  <div className="category-product-card" key={p.id} onClick={() => onProductClick && onProductClick(p, currentProducts)}>
-                    {/* Placeholder image representation with subtle CSS shapes */}
+                  <div className="category-product-card" key={p._id || p.id} onClick={() => onProductClick && onProductClick(p, currentProducts)}>
                     <div className="category-product-placeholder">
-                      <GarmentIcon type={p.category} />
+                      {p.image ? (
+                        <img src={p.image} alt={p.title || p.name} className="category-product-img" />
+                      ) : (
+                        <GarmentIcon type={p.category} />
+                      )}
                       {p.isNew && <span className="new-badge">NEW</span>}
                     </div>
 
-                    <h3 className="category-product-title">{p.name}</h3>
+                    <h3 className="category-product-title">{p.title || p.name}</h3>
 
                     <div className="category-product-rating">
                       <StarRating rating={p.rating} />

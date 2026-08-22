@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: shopco-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: JWT_SECRET
+        value: shopco_super_secret_key_2026
+      - key: FRONTEND_URL
+        sync: false

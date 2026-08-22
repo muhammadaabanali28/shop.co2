@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
-import { auth, googleProvider } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { FiUser, FiMail, FiLock, FiArrowRight } from "react-icons/fi";
 import "./css/Login.css";
 
 function Signup({ onChangePage }) {
-  const { user } = useAuth();
+  const { user, register } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,29 +34,12 @@ function Signup({ onChangePage }) {
     setLoading(true);
 
     try {
-      const result = await createUserWithEmailAndPassword(auth, email, password);
-      if (name) {
-        await updateProfile(result.user, { displayName: name });
-      }
+      await register(name, email, password);
       onChangePage("home");
     } catch (err) {
-      if (err.code === "auth/email-already-in-use") {
-        setError("Email already in use");
-      } else {
-        setError(err.message);
-      }
+      setError(err.message || "Registration failed");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleGoogleSignup = async () => {
-    setError("");
-    try {
-      await signInWithPopup(auth, googleProvider);
-      onChangePage("home");
-    } catch (err) {
-      setError(err.message);
     }
   };
 
@@ -135,15 +116,6 @@ function Signup({ onChangePage }) {
                 )}
               </button>
             </form>
-
-            <div className="auth-divider">
-              <span>or continue with</span>
-            </div>
-
-            <button className="auth-google-btn" onClick={handleGoogleSignup}>
-              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20" />
-              Google
-            </button>
 
             <p className="auth-switch">
               Already have an account?{" "}

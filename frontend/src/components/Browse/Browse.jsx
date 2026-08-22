@@ -12,7 +12,7 @@ const styles = [
 ];
 
 function Browse({ onChangeSection }) {
-  const handleClick = (label) => {
+  const handleClick = () => {
     if (onChangeSection) {
       onChangeSection('shop');
     }
