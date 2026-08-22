@@ -6,7 +6,6 @@ import Signup from './pages/Signup';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
-import AddProduct from './pages/AddProduct';
 import { api, IMG_BASE } from './services/api';
 import './App.css';
 
@@ -64,10 +63,6 @@ function App() {
 
   if (page === 'checkout') {
     return <Checkout onChangePage={navigateTo} onChangeSection={navigateSection} />;
-  }
-
-  if (page === 'add-product') {
-    return <AddProduct onChangePage={navigateTo} onChangeSection={navigateSection} />;
   }
 
   if (page === 'product' && selectedProduct) {

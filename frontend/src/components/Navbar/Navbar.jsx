@@ -75,7 +75,6 @@ function Navbar({ onChangePage, onChangeSection }) {
           <li onClick={() => handleNavClick('sale')}>On Sale</li>
           <li onClick={() => handleNavClick('arrivals')}>New Arrivals</li>
           <li onClick={() => handleNavClick('brands')}>Brands</li>
-          <li onClick={() => handleNavClick('add-product')}>Add Product</li>
         </ul>
       </div>
 
@@ -134,7 +133,6 @@ function Navbar({ onChangePage, onChangeSection }) {
             <li onClick={() => handleNavClick('sale')}>On Sale</li>
             <li onClick={() => handleNavClick('arrivals')}>New Arrivals</li>
             <li onClick={() => handleNavClick('brands')}>Brands</li>
-            <li onClick={() => handleNavClick('add-product')}>Add Product</li>
             {user ? (
               <>
                 <li className="mobile-user-info">
