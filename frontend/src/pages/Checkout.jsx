@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import { useCart } from "../context/CartContext";
@@ -7,10 +7,14 @@ import { FiMapPin, FiCreditCard, FiTruck, FiCheckCircle, FiHome, FiMail, FiPhone
 import "./css/Checkout.css";
 
 function Checkout({ onChangePage, onChangeSection }) {
-  const { cartItems, cartTotal, clearCart } = useCart();
+  const { cartItems, cartTotal, clearCart, loadCart } = useCart();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
+
+  useEffect(() => {
+    if (user) loadCart();
+  }, [user]);
 
   const [form, setForm] = useState({
     firstName: "",

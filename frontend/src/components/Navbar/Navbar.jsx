@@ -13,7 +13,7 @@ import {
 function Navbar({ onChangePage, onChangeSection }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logout, verifyAuth } = useAuth();
   const { cartCount } = useCart();
   const dropdownRef = useRef(null);
 
@@ -94,7 +94,7 @@ function Navbar({ onChangePage, onChangeSection }) {
         </div>
         {user ? (
           <div className="user-dropdown" ref={dropdownRef}>
-            <button className="user-trigger" onClick={() => setUserDropdown(!userDropdown)}>
+            <button className="user-trigger" onClick={async () => { if (!userDropdown) await verifyAuth(); setUserDropdown(!userDropdown); }}>
               <div className="user-avatar">{userInitial}</div>
               <span className="user-name">{user.name?.split(' ')[0] || user.email?.split('@')[0]}</span>
               <FiChevronDown className={`dropdown-arrow ${userDropdown ? "open" : ""}`} />

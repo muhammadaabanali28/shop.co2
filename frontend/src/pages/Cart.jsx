@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import { useCart } from "../context/CartContext";
@@ -6,8 +7,12 @@ import { FiTrash2, FiMinus, FiPlus, FiShoppingBag } from "react-icons/fi";
 import "./css/Cart.css";
 
 function Cart({ onChangePage, onChangeSection }) {
-  const { cartItems, cartTotal, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { cartItems, cartTotal, updateQuantity, removeFromCart, clearCart, loadCart } = useCart();
   const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) loadCart();
+  }, [user]);
 
   if (!user) {
     return (

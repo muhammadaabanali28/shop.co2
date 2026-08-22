@@ -1,27 +1,43 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { api } from "../services/api";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
+  const [user, setUser] = useState(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      api
-        .getMe()
-        .then((data) => setUser(data))
-        .catch(() => {
-          localStorage.removeItem("token");
-          setUser(null);
-        })
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.exp * 1000 > Date.now()) {
+          return { _id: payload.id, name: "User", email: "user@email.com" };
+        }
+      } catch {}
     }
-  }, []);
+    return null;
+  });
+  const [loading, setLoading] = useState(false);
+  const [checked, setChecked] = useState(false);
+
+  const verifyAuth = async () => {
+    if (checked) return;
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLoading(true);
+      try {
+        const data = await api.getMe();
+        setUser(data);
+      } catch {
+        localStorage.removeItem("token");
+        setUser(null);
+      } finally {
+        setLoading(false);
+        setChecked(true);
+      }
+    } else {
+      setChecked(true);
+    }
+  };
 
   const login = async (email, password) => {
     const data = await api.login(email, password);
@@ -43,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, verifyAuth }}>
       {children}
     </AuthContext.Provider>
   );

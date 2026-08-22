@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { api } from "../services/api";
 import { useAuth } from "./AuthContext";
 
@@ -9,17 +9,18 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const loadCart = async () => {
     if (!user) {
       setCartItems([]);
       return;
     }
-
-    api
-      .getCart()
-      .then((data) => setCartItems(data))
-      .catch(() => setCartItems([]));
-  }, [user]);
+    try {
+      const data = await api.getCart();
+      setCartItems(data);
+    } catch {
+      setCartItems([]);
+    }
+  };
 
   const addToCart = async (product, quantity = 1, selectedColor = 0, selectedSize = 1) => {
     if (!user) return false;
@@ -71,6 +72,7 @@ export const CartProvider = ({ children }) => {
         cartCount,
         cartTotal,
         loading,
+        loadCart,
         addToCart,
         updateQuantity,
         removeFromCart,
