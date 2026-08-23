@@ -158,4 +158,4 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
-module.exports = app;
+module.exports = (req, res) => app(req, res);
