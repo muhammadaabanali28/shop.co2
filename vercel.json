@@ -1,12 +1,12 @@
 {
-  "installCommand": "npm install --prefix api && npm install --prefix frontend && npm install",
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "npm install && cd api && npm install",
   "functions": {
     "api/index.js": {}
   },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.js" },
-    { "source": "/upload/products/(.*)", "destination": "/frontend/public/upload/products/$1" },
-    { "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))", "destination": "/frontend/dist/$1" },
-    { "source": "/(.*)", "destination": "/frontend/dist/index.html" }
+    { "source": "/upload/products/(.*)", "destination": "/frontend/public/upload/products/$1" }
   ]
 }
