@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || "shopco_secret_key";
 
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({ origin: process.env.CORS_ORIGIN || "*", credentials: true }));
 app.use(express.json());
 
 // ── Seed Products ──────────────────────────────────────────────

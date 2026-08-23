@@ -2,11 +2,7 @@ const API_BASE = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL + "/api"
   : "/api";
 
-const IMG_BASE_URL = import.meta.env.VITE_API_URL
-  ? import.meta.env.VITE_API_URL
-  : "";
-
-export const IMG_BASE = IMG_BASE_URL;
+export const IMG_BASE = "";
 
 const getToken = () => localStorage.getItem("token");
 
