@@ -1,8 +1,9 @@
-const API_BASE = import.meta.env.VITE_API_URL
-  ? import.meta.env.VITE_API_URL + "/api"
-  : "/api";
+const BACKEND_URL = import.meta.env.VITE_API_URL || "";
 
-export const IMG_BASE = "";
+const API_BASE = BACKEND_URL ? BACKEND_URL + "/api" : "/api";
+
+// For images: in production point to Render backend, in dev proxy handles it
+export const IMG_BASE = BACKEND_URL;
 
 const getToken = () => localStorage.getItem("token");
 
