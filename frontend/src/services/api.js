@@ -1,9 +1,10 @@
-const BACKEND_URL = import.meta.env.VITE_API_URL || "";
+// In production on Vercel, /api/* is routed to the serverless function automatically
+// In dev, Vite proxy forwards /api/* to localhost:5000
+const API_BASE = "/api";
 
-const API_BASE = BACKEND_URL ? BACKEND_URL + "/api" : "/api";
+// Images are now static assets in frontend/public/images/ - no base URL needed
+export const IMG_BASE = "";
 
-// For images: in production point to Render backend, in dev proxy handles it
-export const IMG_BASE = BACKEND_URL;
 
 const getToken = () => localStorage.getItem("token");
 
